@@ -26,7 +26,6 @@ const ContactContainer = styled.section`
 const Title = styled.h2`
   font-size: 2.8rem;
   margin-bottom: 2rem;
-  color: #ffffff;
 `;
 
 const Form = styled.form`
@@ -37,12 +36,13 @@ const Form = styled.form`
   max-width: 700px;
 `;
 
-const Button = styled.button`
+const Button = styled.button<{ $darkMode: boolean }>`
   padding: 1rem;
-  border: 2px solid #ffffff;
+  border: 2px solid
+    ${({ $darkMode }) => ($darkMode ? "#ffffff" : "#121212")};
   border-radius: 10px;
   background: transparent;
-  color: #ffffff;
+  color: ${({ $darkMode }) => ($darkMode ? "#ffffff" : "#121212")};
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
@@ -55,16 +55,39 @@ const Button = styled.button`
   transition: all 0.3s ease;
 
   &:hover {
-    background: #ffffff;
-    color: #121212;
+    background: ${({ $darkMode }) => ($darkMode ? "#ffffff" : "#121212")};
+    color: ${({ $darkMode }) => ($darkMode ? "#121212" : "#ffffff")};
     transform: translateY(-2px);
   }
 `;
 
 function Contact({ darkMode }: ContactProps) {
+  const textColor = darkMode ? "#ffffff" : "#121212";
+  const backgroundColor = darkMode
+    ? "rgba(255, 255, 255, 0.08)"
+    : "rgba(0, 0, 0, 0.05)";
+
+  const commonFieldStyles = {
+    "& .MuiInputLabel-root": {
+      color: textColor,
+    },
+    "& .MuiOutlinedInput-root": {
+      color: textColor,
+      "& fieldset": {
+        borderColor: textColor,
+      },
+      "&:hover fieldset": {
+        borderColor: textColor,
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: textColor,
+      },
+    },
+  };
+
   return (
     <ContactContainer id="contact">
-      <Title>Contact Me</Title>
+      <Title style={{ color: textColor }}>Contact Me</Title>
 
       <Form
         action="https://api.web3forms.com/submit"
@@ -73,109 +96,84 @@ function Contact({ darkMode }: ContactProps) {
         <input
           type="hidden"
           name="access_key"
-          value="2812db02-c66f-437f-a43b-15300eec4fb4"
+          value={import.meta.env.VITE_WEB3FORMS_ACCESS_KEY}
+        />
+
+        <input
+          type="hidden"
+          name="subject"
+          value="New Portfolio Contact Message"
         />
 
         <TextField
           label="Username"
-          variant="standard"
           name="name"
+          variant="outlined"
           required
           fullWidth
-          sx={{
+          autoComplete="name"
+          sx={commonFieldStyles}
+          slotProps={{
             input: {
-              color: "#fff",
+              startAdornment: (
+                <InputAdornment position="start">
+                  <PersonIcon sx={{ color: textColor }} />
+                </InputAdornment>
+              ),
             },
-            label: {
-              color: "#fff",
-            },
-            "& .MuiInputLabel-root": {
-              color: "#fff",
-            },
-            "& .MuiInput-underline:before": {
-              borderBottomColor: "#fff",
-            },
-            "& .MuiInput-underline:after": {
-              borderBottomColor: "#fff",
-            },
-          }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <PersonIcon sx={{ color: "#fff" }} />
-              </InputAdornment>
-            ),
           }}
         />
 
         <TextField
           label="Email"
+          name="email"
           type="email"
           variant="outlined"
-          name="email"
           required
           fullWidth
-          sx={{
+          autoComplete="email"
+          sx={commonFieldStyles}
+          slotProps={{
             input: {
-              color: "#fff",
+              startAdornment: (
+                <InputAdornment position="start">
+                  <EmailIcon sx={{ color: textColor }} />
+                </InputAdornment>
+              ),
             },
-            label: {
-              color: "#fff",
-            },
-            "& .MuiInputLabel-root": {
-              color: "#fff",
-            },
-            "& .MuiOutlinedInput-root": {
-              "& fieldset": {
-                borderColor: "#fff",
-              },
-              "&:hover fieldset": {
-                borderColor: "#fff",
-              },
-              "&.Mui-focused fieldset": {
-                borderColor: "#fff",
-              },
-            },
-          }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <EmailIcon sx={{ color: "#fff" }} />
-              </InputAdornment>
-            ),
           }}
         />
 
         <TextField
           label="Message"
-          variant="filled"
           name="message"
+          variant="outlined"
           required
           multiline
           rows={6}
           fullWidth
           sx={{
-            "& .MuiFilledInput-root": {
-              backgroundColor: "rgba(255,255,255,0.08)",
-              color: "#fff",
-            },
-            "& .MuiInputLabel-root": {
-              color: "#fff",
-            },
-            "& textarea": {
-              color: "#fff",
+            ...commonFieldStyles,
+            "& .MuiOutlinedInput-root": {
+              ...commonFieldStyles["& .MuiOutlinedInput-root"],
+              backgroundColor,
             },
           }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <MessageIcon sx={{ color: "#fff" }} />
-              </InputAdornment>
-            ),
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment
+                  position="start"
+                  sx={{ alignSelf: "flex-start", mt: 1 }}
+                >
+                  <MessageIcon sx={{ color: textColor }} />
+                </InputAdornment>
+              ),
+            },
           }}
         />
 
-        <Button type="submit">
+        <Button type="submit" $darkMode={darkMode}>
           <SendIcon />
           Send Message
         </Button>

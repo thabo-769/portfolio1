@@ -112,18 +112,19 @@ const Button = styled.a<{ darkMode: boolean }>`
 function Projects({ darkMode }: ProjectsProps) {
   const featuredProjects = [
     {
-      title: "Anime Website",
+      title: " Bleach Anime Website",
       description: "Discover and explore anime using external APIs.",
       stack: "React • API",
       liveLink: "https://anime-site.vercel.app",
       githubLink: "https://github.com/yourusername/anime-website",
     },
     {
-      title: "Portfolio Website",
+      title: "Personal Portfolio",
       description: "Modern personal portfolio showcasing projects.",
       stack: "React • Styled Components",
-      liveLink: "https://portfolio.vercel.app",
-      githubLink: "https://github.com/yourusername/portfolio",
+      Image: "https://via.placeholder.com/300x180.png?text=Portfolio+Project",
+      liveLink: "https://thabo-769.github.io/portfolio1/",
+      githubLink: "https://github.com/thabo-769/portfolio1.git",
     },
     {
       title: "Weather App",

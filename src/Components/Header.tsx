@@ -5,7 +5,7 @@ type HeaderProps = {
 };
 
 const Container = styled.div`
-  width: 100%;
+  width: 95%;
 `;
 
 const HeaderContainer = styled.header`

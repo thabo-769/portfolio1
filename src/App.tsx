@@ -29,9 +29,9 @@ function App() {
       <button
         onClick={toggleTheme}
         style={{
-          position: "fixed",
+          
           top: "20px",
-          right: "700px",
+          right: "20px",
           
           width: "50px",
           height: "50px",
