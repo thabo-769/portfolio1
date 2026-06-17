@@ -85,32 +85,32 @@ function Referrals({ darkMode }: ReferralsProps) {
   const referrals = [
     {
       name: "John Doe",
-      image: "https://picsum.photos/400/300?random=1",
+      image: `https://ui-avatars.com/api/?name=John+Doe&background=random&size=180`,
       text: "John is a great developer and a pleasure to work with.",
     },
     {
       name: "Sarah Smith",
-      image: "https://picsum.photos/400/300?random=2",
+      image: `https://ui-avatars.com/api/?name=Sarah+Smith&background=random&size=180`,
       text: "Excellent problem-solving skills and teamwork.",
     },
     {
       name: "Mike Johnson",
-      image: "https://picsum.photos/400/300?random=3",
+      image: `https://ui-avatars.com/api/?name=Mike+Johnson&background=random&size=180`,
       text: "Always delivers high-quality work on time.",
     },
     {
       name: "David Brown",
-      image: "https://picsum.photos/400/300?random=4",
+      image: `https://ui-avatars.com/api/?name=David+Brown&background=random&size=180`,
       text: "Very professional and reliable developer.",
     },
     {
       name: "Emily Davis",
-      image: "https://picsum.photos/400/300?random=5",
+      image: `https://ui-avatars.com/api/?name=Emily+Davis&background=random&size=180`,
       text: "Strong technical skills and communication.",
     },
     {
       name: "James Wilson",
-      image: "https://picsum.photos/400/300?random=6",
+      image: `https://ui-avatars.com/api/?name=James+Wilson&background=random&size=180`,
       text: "Creative thinker and outstanding collaborator.",
     },
   ];
