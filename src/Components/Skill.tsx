@@ -1,94 +1,86 @@
 import styled from "styled-components";
 
-type SkillsProps = {
-  darkMode: boolean;
-};
+type SkillsProps = { darkMode: boolean };
 
-const Container = styled.div`
-  padding: 5rem 8rem;
-  max-width: 1200px;
-  margin: 0 auto;
-
-  @media (max-width: 900px) {
-    padding: 4rem 2rem;
-  }
+const Section = styled.div`
+  padding: 5rem 0;
+  border-top: 1px solid;
+  border-color: inherit;
 `;
 
-const SectionLabel = styled.span<{ darkMode: boolean }>`
+const Label = styled.span<{ $dark: boolean }>`
   display: block;
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 2px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 2.5px;
   text-transform: uppercase;
   margin-bottom: 0.75rem;
-  color: ${(props) => (props.darkMode ? "#888888" : "#999999")};
+  color: ${({ $dark }) => ($dark ? "#666666" : "#aaaaaa")};
 `;
 
-const SkillTitle = styled.h2<{ darkMode: boolean }>`
-  font-size: 2.2rem;
+const Title = styled.h2<{ $dark: boolean }>`
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
   font-weight: 700;
-  margin: 0 0 1rem;
   letter-spacing: -0.5px;
-  color: ${(props) => (props.darkMode ? "#ffffff" : "#121212")};
+  margin-bottom: 1rem;
+  color: ${({ $dark }) => ($dark ? "#ffffff" : "#111111")};
 `;
 
-const Divider = styled.div<{ darkMode: boolean }>`
-  width: 48px;
+const Bar = styled.div<{ $dark: boolean }>`
+  width: 40px;
   height: 3px;
   border-radius: 2px;
   margin-bottom: 2rem;
-  background: ${(props) => (props.darkMode ? "#444444" : "#cccccc")};
+  background: ${({ $dark }) => ($dark ? "#444444" : "#cccccc")};
 `;
 
-const SkillList = styled.ul`
+const TagCloud = styled.ul`
   list-style: none;
-  padding: 0;
-  margin: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: 0.65rem;
 `;
 
-const SkillItem = styled.li<{ darkMode: boolean }>`
-  padding: 0.45rem 1rem;
-  background: ${(props) =>
-    props.darkMode ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.05)"};
-  color: ${(props) => (props.darkMode ? "#dddddd" : "#333333")};
-  border: 1px solid ${(props) => (props.darkMode ? "#333333" : "#dddddd")};
+const Tag = styled.li<{ $dark: boolean }>`
+  padding: 0.4rem 1rem;
   border-radius: 6px;
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   font-weight: 500;
-  transition: all 0.2s ease;
   cursor: default;
+  border: 1px solid ${({ $dark }) => ($dark ? "#2e2e2e" : "#dddddd")};
+  background: ${({ $dark }) =>
+    $dark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)"};
+  color: ${({ $dark }) => ($dark ? "#cccccc" : "#444444")};
+  transition: transform 0.18s ease, border-color 0.18s ease,
+    background 0.18s ease;
+  will-change: transform;
 
   &:hover {
-    background: ${(props) =>
-      props.darkMode ? "rgba(255,255,255,0.13)" : "rgba(0,0,0,0.1)"};
-    border-color: ${(props) => (props.darkMode ? "#555555" : "#aaaaaa")};
     transform: translateY(-2px);
+    border-color: ${({ $dark }) => ($dark ? "#555555" : "#aaaaaa")};
+    background: ${({ $dark }) =>
+      $dark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.08)"};
   }
 `;
 
 const skills = [
   "HTML", "CSS", "JavaScript", "TypeScript",
   "React", "Node.js", "Styled Components", "Git & GitHub",
-  "REST APIs", "Responsive Design",
+  "REST APIs", "Responsive Design", "Vite", "Material UI",
 ];
 
 function Skills({ darkMode }: SkillsProps) {
   return (
-    <Container>
-      <SectionLabel darkMode={darkMode}>What I Know</SectionLabel>
-      <SkillTitle darkMode={darkMode}>My Skills</SkillTitle>
-      <Divider darkMode={darkMode} />
-      <SkillList>
-        {skills.map((skill) => (
-          <SkillItem key={skill} darkMode={darkMode}>
-            {skill}
-          </SkillItem>
+    <Section>
+      <Label $dark={darkMode}>What I Know</Label>
+      <Title $dark={darkMode}>My Skills</Title>
+      <Bar $dark={darkMode} />
+      <TagCloud>
+        {skills.map((s) => (
+          <Tag key={s} $dark={darkMode}>{s}</Tag>
         ))}
-      </SkillList>
-    </Container>
+      </TagCloud>
+    </Section>
   );
 }
 

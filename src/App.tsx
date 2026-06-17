@@ -1,6 +1,7 @@
 import { useState } from "react";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
+import styled from "styled-components";
 
 import Header from "./Components/Header";
 import Hero from "./Components/Hero";
@@ -10,71 +11,81 @@ import Projects from "./Components/Projects";
 import Refferals from "./Components/Refferals";
 import Contact from "./Components/Contact";
 
+const PageWrapper = styled.div<{ $dark: boolean }>`
+  background: ${({ $dark }) => ($dark ? "#121212" : "#f7f7f7")};
+  color: ${({ $dark }) => ($dark ? "#ffffff" : "#333333")};
+  min-height: 100vh;
+  transition: background 0.3s ease, color 0.3s ease;
+`;
+
+/* Single horizontal spine — ALL sections align to this */
+const Main = styled.main`
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 3rem;
+
+  @media (max-width: 768px) {
+    padding: 0 1.25rem;
+  }
+`;
+
+const ThemeToggle = styled.button<{ $dark: boolean }>`
+  position: fixed;
+  top: 18px;
+  right: 24px;
+  z-index: 1100;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: ${({ $dark }) => ($dark ? "#ffffff" : "#121212")};
+  color: ${({ $dark }) => ($dark ? "#121212" : "#ffffff")};
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+  transition: background 0.3s ease, color 0.3s ease;
+  flex-shrink: 0;
+`;
+
 function App() {
   const [darkMode, setDarkMode] = useState(true);
 
-  const toggleTheme = () => {
-    setDarkMode((prev) => !prev);
-  };
-
   return (
-    <div
-      style={{
-        backgroundColor: darkMode ? "#121212" : "#f5f5f5",
-        color: darkMode ? "#ffffff" : "#565449",
-        minHeight: "100vh",
-        transition: "all 0.3s ease",
-      }}
-    >
-      <button
-        onClick={toggleTheme}
-        style={{
-          position: "fixed",
-          top: "20px",
-          right: "24px",
-          zIndex: 1100,
-          width: "44px",
-          height: "44px",
-          borderRadius: "50%",
-          border: "none",
-          cursor: "pointer",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: darkMode ? "#ffffff" : "#121212",
-          color: darkMode ? "#121212" : "#ffffff",
-          boxShadow: "0 2px 12px rgba(0,0,0,0.25)",
-          transition: "all 0.3s ease",
-        }}
-      >
+    <PageWrapper $dark={darkMode}>
+      <ThemeToggle $dark={darkMode} onClick={() => setDarkMode((p) => !p)}>
         {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
-      </button>
+      </ThemeToggle>
 
-      <div id="hero">
-        <Header darkMode={darkMode} />
-        <Hero darkMode={darkMode} />
-      </div>
+      <Header darkMode={darkMode} />
 
-      <div id="about">
-        <About darkMode={darkMode} />
-      </div>
+      <Main>
+        <section id="hero">
+          <Hero darkMode={darkMode} />
+        </section>
 
-      <div id="skill">
-        <Skill darkMode={darkMode} />
-      </div>
+        <section id="about">
+          <About darkMode={darkMode} />
+        </section>
 
-      <div id="projects">
-        <Projects darkMode={darkMode} />
-      </div>
+        <section id="skill">
+          <Skill darkMode={darkMode} />
+        </section>
 
-      <div id="refferals">
-        <Refferals darkMode={darkMode} />
-      </div>
+        <section id="projects">
+          <Projects darkMode={darkMode} />
+        </section>
 
-      <div id="contact">
-        <Contact darkMode={darkMode} />
-      </div>
-    </div>
+        <section id="refferals">
+          <Refferals darkMode={darkMode} />
+        </section>
+
+        <section id="contact">
+          <Contact darkMode={darkMode} />
+        </section>
+      </Main>
+    </PageWrapper>
   );
 }
 

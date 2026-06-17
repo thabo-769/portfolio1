@@ -5,84 +5,86 @@ type HeroProps = {
   darkMode: boolean;
 };
 
-const Container = styled.div`
+const Section = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 5rem;
-  padding: 8rem 8rem 4rem;
+  gap: 4rem;
+  padding: 9rem 0 5rem; /* top accounts for fixed header */
   min-height: 100vh;
-  max-width: 1200px;
-  margin: 0 auto;
 
-  @media (max-width: 900px) {
+  @media (max-width: 768px) {
     flex-direction: column-reverse;
-    gap: 2.5rem;
-    padding: 6rem 2rem 3rem;
+    gap: 2rem;
+    padding: 7rem 0 3rem;
     text-align: center;
   }
 `;
 
-const HeroSection = styled.section`
+const TextSide = styled.div`
   flex: 1;
-  max-width: 560px;
 `;
 
-const HeroTag = styled.span<{ darkMode: boolean }>`
+const Tag = styled.span<{ $dark: boolean }>`
   display: inline-block;
-  padding: 0.25rem 0.75rem;
+  padding: 0.3rem 0.8rem;
   border-radius: 20px;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 600;
-  margin-bottom: 1.25rem;
-  background: ${(props) =>
-    props.darkMode ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)"};
-  color: ${(props) => (props.darkMode ? "#aaaaaa" : "#666666")};
   letter-spacing: 0.5px;
   text-transform: uppercase;
+  margin-bottom: 1.25rem;
+  background: ${({ $dark }) =>
+    $dark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)"};
+  color: ${({ $dark }) => ($dark ? "#aaaaaa" : "#777777")};
 `;
 
-const HeroTitle = styled.h1<{ darkMode: boolean }>`
-  font-size: 2.8rem;
+const Title = styled.h1<{ $dark: boolean }>`
+  font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 700;
-  margin: 0 0 1rem;
-  line-height: 1.15;
   letter-spacing: -1px;
-  color: ${(props) => (props.darkMode ? "#ffffff" : "#121212")};
+  margin-bottom: 1.1rem;
+  color: ${({ $dark }) => ($dark ? "#ffffff" : "#111111")};
+`;
 
-  @media (max-width: 900px) {
-    font-size: 2rem;
+const Sub = styled.p<{ $dark: boolean }>`
+  font-size: 1rem;
+  line-height: 1.8;
+  margin-bottom: 2.25rem;
+  color: ${({ $dark }) => ($dark ? "#aaaaaa" : "#666666")};
+  max-width: 480px;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
   }
 `;
 
-const HeroSubtitle = styled.p<{ darkMode: boolean }>`
-  font-size: 1rem;
-  line-height: 1.75;
-  margin-bottom: 2.25rem;
-  color: ${(props) => (props.darkMode ? "#aaaaaa" : "#666666")};
-`;
-
-const ButtonContainer = styled.div`
+const Buttons = styled.div`
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
 
-  @media (max-width: 900px) {
+  @media (max-width: 768px) {
     justify-content: center;
   }
 `;
 
-const PrimaryButton = styled.a<{ darkMode: boolean }>`
+const Btn = styled.a<{ $dark: boolean; $primary?: boolean }>`
   padding: 0.75rem 1.75rem;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 600;
-  background-color: ${(props) => (props.darkMode ? "#ffffff" : "#121212")};
-  color: ${(props) => (props.darkMode ? "#121212" : "#ffffff")};
-  border: none;
   border-radius: 8px;
   cursor: pointer;
   text-decoration: none;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: opacity 0.2s, transform 0.2s;
+  will-change: transform;
+
+  background: ${({ $primary, $dark }) =>
+    $primary ? ($dark ? "#ffffff" : "#111111") : "transparent"};
+  color: ${({ $primary, $dark }) =>
+    $primary ? ($dark ? "#111111" : "#ffffff") : ($dark ? "#ffffff" : "#111111")};
+  border: 1.5px solid
+    ${({ $primary, $dark }) =>
+      $primary ? "transparent" : ($dark ? "#444444" : "#cccccc")};
 
   &:hover {
     opacity: 0.85;
@@ -90,84 +92,55 @@ const PrimaryButton = styled.a<{ darkMode: boolean }>`
   }
 `;
 
-const SecondaryButton = styled.a<{ darkMode: boolean }>`
-  padding: 0.75rem 1.75rem;
-  font-size: 0.95rem;
-  font-weight: 600;
-  background-color: transparent;
-  color: ${(props) => (props.darkMode ? "#ffffff" : "#121212")};
-  border: 1.5px solid ${(props) => (props.darkMode ? "#444444" : "#cccccc")};
-  border-radius: 8px;
-  cursor: pointer;
-  text-decoration: none;
-  transition: border-color 0.2s ease, transform 0.2s ease;
-
-  &:hover {
-    border-color: ${(props) => (props.darkMode ? "#ffffff" : "#121212")};
-    transform: translateY(-2px);
-  }
-`;
-
-const ImageWrapper = styled.div<{ darkMode: boolean }>`
-  position: relative;
+const ImageSide = styled.div<{ $dark: boolean }>`
   flex-shrink: 0;
+  position: relative;
 
-  &::before {
+  &::after {
     content: "";
     position: absolute;
-    inset: -6px;
+    inset: -8px;
     border-radius: 50%;
-    background: ${(props) =>
-      props.darkMode
-        ? "radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%)"
-        : "radial-gradient(circle, rgba(0,0,0,0.06) 0%, transparent 70%)"};
+    background: ${({ $dark }) =>
+      $dark
+        ? "radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%)"
+        : "radial-gradient(circle, rgba(0,0,0,0.05) 0%, transparent 70%)"};
   }
 `;
 
-const ProfileImage = styled.img`
-  width: 280px;
-  height: 280px;
+const Avatar = styled.img`
+  width: 260px;
+  height: 260px;
   border-radius: 50%;
   object-fit: cover;
-  display: block;
-  border: 3px solid rgba(255, 255, 255, 0.1);
 
-  @media (max-width: 900px) {
-    width: 200px;
-    height: 200px;
+  @media (max-width: 768px) {
+    width: 180px;
+    height: 180px;
   }
 `;
 
-function Hero({ darkMode }: HeroProps) {
+function Hero({ darkMode: dark }: HeroProps) {
   return (
-    <Container>
-      <HeroSection>
-        <HeroTag darkMode={darkMode}>👋 Available for work</HeroTag>
-
-        <HeroTitle darkMode={darkMode}>
-          Hi, I'm Thabo Tshabangu
-        </HeroTitle>
-
-        <HeroSubtitle darkMode={darkMode}>
+    <Section>
+      <TextSide>
+        <Tag $dark={dark}>👋 Available for work</Tag>
+        <Title $dark={dark}>Hi, I'm Thabo Tshabangu</Title>
+        <Sub $dark={dark}>
           A Software Developer passionate about building modern, responsive, and
           impactful digital experiences. I specialize in transforming ideas into
           functional websites and applications that solve real-world problems.
-        </HeroSubtitle>
+        </Sub>
+        <Buttons>
+          <Btn $dark={dark} $primary href="#projects">View Projects</Btn>
+          <Btn $dark={dark} href="#contact">Contact Me</Btn>
+        </Buttons>
+      </TextSide>
 
-        <ButtonContainer>
-          <PrimaryButton darkMode={darkMode} href="#projects">
-            View Projects
-          </PrimaryButton>
-          <SecondaryButton darkMode={darkMode} href="#contact">
-            Contact Me
-          </SecondaryButton>
-        </ButtonContainer>
-      </HeroSection>
-
-      <ImageWrapper darkMode={darkMode}>
-        <ProfileImage src={ProfilePic} alt="Thabo Tshabangu" />
-      </ImageWrapper>
-    </Container>
+      <ImageSide $dark={dark}>
+        <Avatar src={ProfilePic} alt="Thabo Tshabangu" />
+      </ImageSide>
+    </Section>
   );
 }
 

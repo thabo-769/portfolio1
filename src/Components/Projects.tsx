@@ -1,224 +1,187 @@
 import styled from "styled-components";
 
-type ProjectsProps = {
-  darkMode: boolean;
-};
+type ProjectsProps = { darkMode: boolean };
 
-const Container = styled.div`
-  padding: 5rem 8rem;
-  max-width: 1200px;
-  margin: 0 auto;
-
-  @media (max-width: 900px) {
-    padding: 4rem 2rem;
-  }
+const Section = styled.div`
+  padding: 5rem 0;
+  border-top: 1px solid;
+  border-color: inherit;
 `;
 
-const SectionLabel = styled.span<{ darkMode: boolean }>`
+const Label = styled.span<{ $dark: boolean }>`
   display: block;
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 2px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 2.5px;
   text-transform: uppercase;
   margin-bottom: 0.75rem;
-  color: ${(props) => (props.darkMode ? "#888888" : "#999999")};
+  color: ${({ $dark }) => ($dark ? "#666666" : "#aaaaaa")};
 `;
 
-const ProjectsTitle = styled.h2<{ darkMode: boolean }>`
-  font-size: 2.2rem;
+const Title = styled.h2<{ $dark: boolean }>`
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
   font-weight: 700;
-  margin: 0 0 1rem;
   letter-spacing: -0.5px;
-  color: ${(props) => (props.darkMode ? "#ffffff" : "#121212")};
+  margin-bottom: 1rem;
+  color: ${({ $dark }) => ($dark ? "#ffffff" : "#111111")};
 `;
 
-const Divider = styled.div<{ darkMode: boolean }>`
-  width: 48px;
+const Bar = styled.div<{ $dark: boolean }>`
+  width: 40px;
   height: 3px;
   border-radius: 2px;
   margin-bottom: 2rem;
-  background: ${(props) => (props.darkMode ? "#444444" : "#cccccc")};
+  background: ${({ $dark }) => ($dark ? "#444444" : "#cccccc")};
 `;
 
-const ProjectsGrid = styled.div`
+const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1.25rem;
 
-  @media (max-width: 1000px) {
+  @media (max-width: 900px) {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 520px) {
     grid-template-columns: 1fr;
   }
 `;
 
-const ProjectCard = styled.div<{ darkMode: boolean }>`
-  background: ${(props) => (props.darkMode ? "#1a1a1a" : "#ffffff")};
-  border: 1px solid ${(props) => (props.darkMode ? "#2a2a2a" : "#e5e5e5")};
-  border-radius: 12px;
+const Card = styled.div<{ $dark: boolean }>`
+  border-radius: 10px;
   overflow: hidden;
-  transition: transform 0.25s ease, border-color 0.25s ease,
-    box-shadow 0.25s ease;
+  border: 1px solid ${({ $dark }) => ($dark ? "#252525" : "#e5e5e5")};
+  background: ${({ $dark }) => ($dark ? "#1a1a1a" : "#ffffff")};
+  transition: transform 0.22s ease, box-shadow 0.22s ease,
+    border-color 0.22s ease;
+  will-change: transform;
 
   &:hover {
-    transform: translateY(-5px);
-    border-color: ${(props) => (props.darkMode ? "#444444" : "#bbbbbb")};
-    box-shadow: 0 8px 24px
-      ${(props) =>
-        props.darkMode ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.08)"};
+    transform: translateY(-4px);
+    border-color: ${({ $dark }) => ($dark ? "#3a3a3a" : "#c0c0c0")};
+    box-shadow: 0 10px 28px
+      ${({ $dark }) => ($dark ? "rgba(0,0,0,0.55)" : "rgba(0,0,0,0.09)")};
   }
 `;
 
-const ProjectPreview = styled.div<{ darkMode: boolean; emoji: string }>`
-  width: 100%;
-  height: 130px;
-  background: ${(props) => (props.darkMode ? "#222222" : "#f0f0f0")};
+const Preview = styled.div<{ $dark: boolean }>`
+  height: 120px;
+  background: ${({ $dark }) => ($dark ? "#222222" : "#efefef")};
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  gap: 0.4rem;
-  font-size: 2rem;
-  color: ${(props) => (props.darkMode ? "#555555" : "#aaaaaa")};
-
-  &::after {
-    content: "${(props) => props.emoji}";
-  }
+  justify-content: center;
+  font-size: 2.2rem;
 `;
 
-const ProjectContent = styled.div`
-  padding: 1rem;
+const CardBody = styled.div`
+  padding: 0.9rem 1rem 1rem;
 `;
 
-const ProjectTitleCard = styled.h3<{ darkMode: boolean }>`
-  font-size: 0.95rem;
+const CardTitle = styled.h3<{ $dark: boolean }>`
+  font-size: 0.9rem;
   font-weight: 600;
-  margin: 0 0 0.4rem;
-  color: ${(props) => (props.darkMode ? "#ffffff" : "#121212")};
+  margin-bottom: 0.35rem;
+  color: ${({ $dark }) => ($dark ? "#ffffff" : "#111111")};
 `;
 
-const ProjectDescription = styled.p<{ darkMode: boolean }>`
-  font-size: 0.82rem;
-  line-height: 1.5;
-  color: ${(props) => (props.darkMode ? "#aaaaaa" : "#666666")};
-  margin-bottom: 0.5rem;
+const Desc = styled.p<{ $dark: boolean }>`
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: ${({ $dark }) => ($dark ? "#999999" : "#666666")};
 `;
 
-const TechStack = styled.p<{ darkMode: boolean }>`
-  font-size: 0.75rem;
+const Stack = styled.p<{ $dark: boolean }>`
+  font-size: 0.72rem;
   font-weight: 500;
-  color: ${(props) => (props.darkMode ? "#666666" : "#999999")};
   margin-top: 0.5rem;
+  color: ${({ $dark }) => ($dark ? "#555555" : "#aaaaaa")};
 `;
 
-const ButtonContainer = styled.div`
+const BtnRow = styled.div`
   display: flex;
   gap: 0.5rem;
-  margin-top: 1rem;
+  margin-top: 0.9rem;
 `;
 
-const Button = styled.a<{ darkMode: boolean }>`
+const Btn = styled.a<{ $dark: boolean }>`
   flex: 1;
-  text-decoration: none;
   text-align: center;
-  padding: 0.45rem 0.5rem;
-  font-size: 0.78rem;
+  text-decoration: none;
+  padding: 0.4rem 0;
+  font-size: 0.76rem;
   font-weight: 500;
-  border: 1px solid ${(props) => (props.darkMode ? "#333333" : "#dddddd")};
   border-radius: 6px;
-  color: ${(props) => (props.darkMode ? "#cccccc" : "#444444")};
-  transition: all 0.2s ease;
+  border: 1px solid ${({ $dark }) => ($dark ? "#303030" : "#e0e0e0")};
+  color: ${({ $dark }) => ($dark ? "#cccccc" : "#444444")};
+  transition: background 0.18s, color 0.18s, border-color 0.18s;
 
   &:hover {
-    background: ${(props) => (props.darkMode ? "#2a2a2a" : "#f5f5f5")};
-    border-color: ${(props) => (props.darkMode ? "#555555" : "#aaaaaa")};
-    color: ${(props) => (props.darkMode ? "#ffffff" : "#121212")};
+    background: ${({ $dark }) => ($dark ? "#2a2a2a" : "#f0f0f0")};
+    border-color: ${({ $dark }) => ($dark ? "#555" : "#aaa")};
+    color: ${({ $dark }) => ($dark ? "#fff" : "#111")};
   }
 `;
 
-const featuredProjects = [
+const projects = [
   {
     title: "Bleach Anime Website",
-    description: "Discover and explore anime using external APIs.",
+    desc: "Discover and explore anime using external APIs.",
     stack: "React • API",
     emoji: "⚔️",
-    liveLink: "https://anime-site.vercel.app",
-    githubLink: "https://github.com/yourusername/anime-website",
+    live: "https://anime-site.vercel.app",
+    repo: "https://github.com/yourusername/anime-website",
   },
   {
     title: "Personal Portfolio",
-    description: "Modern personal portfolio showcasing projects.",
+    desc: "Modern personal portfolio showcasing projects.",
     stack: "React • Styled Components",
     emoji: "🗂️",
-    liveLink: "https://thabo-769.github.io/portfolio1/",
-    githubLink: "https://github.com/thabo-769/portfolio1.git",
+    live: "https://thabo-769.github.io/portfolio1/",
+    repo: "https://github.com/thabo-769/portfolio1.git",
   },
   {
     title: "Weather App",
-    description: "Live weather forecasts and current conditions.",
+    desc: "Live weather forecasts and current conditions.",
     stack: "React • API",
     emoji: "🌤️",
-    liveLink: "https://weather-app.vercel.app",
-    githubLink: "https://github.com/yourusername/weather-app",
+    live: "https://weather-app.vercel.app",
+    repo: "https://github.com/yourusername/weather-app",
   },
   {
     title: "Task Manager",
-    description: "Organize and track daily tasks efficiently.",
+    desc: "Organize and track daily tasks efficiently.",
     stack: "React • Local Storage",
     emoji: "✅",
-    liveLink: "https://task-manager.vercel.app",
-    githubLink: "https://github.com/yourusername/task-manager",
+    live: "https://task-manager.vercel.app",
+    repo: "https://github.com/yourusername/task-manager",
   },
 ];
 
 function Projects({ darkMode }: ProjectsProps) {
   return (
-    <Container>
-      <SectionLabel darkMode={darkMode}>What I've Built</SectionLabel>
-      <ProjectsTitle darkMode={darkMode}>My Projects</ProjectsTitle>
-      <Divider darkMode={darkMode} />
+    <Section>
+      <Label $dark={darkMode}>What I've Built</Label>
+      <Title $dark={darkMode}>My Projects</Title>
+      <Bar $dark={darkMode} />
 
-      <ProjectsGrid>
-        {featuredProjects.map((project, index) => (
-          <ProjectCard key={index} darkMode={darkMode}>
-            <ProjectPreview darkMode={darkMode} emoji={project.emoji} />
-
-            <ProjectContent>
-              <ProjectTitleCard darkMode={darkMode}>
-                {project.title}
-              </ProjectTitleCard>
-
-              <ProjectDescription darkMode={darkMode}>
-                {project.description}
-              </ProjectDescription>
-
-              <TechStack darkMode={darkMode}>{project.stack}</TechStack>
-
-              <ButtonContainer>
-                <Button
-                  darkMode={darkMode}
-                  href={project.liveLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Live Demo
-                </Button>
-                <Button
-                  darkMode={darkMode}
-                  href={project.githubLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  GitHub
-                </Button>
-              </ButtonContainer>
-            </ProjectContent>
-          </ProjectCard>
+      <Grid>
+        {projects.map((p, i) => (
+          <Card key={i} $dark={darkMode}>
+            <Preview $dark={darkMode}>{p.emoji}</Preview>
+            <CardBody>
+              <CardTitle $dark={darkMode}>{p.title}</CardTitle>
+              <Desc $dark={darkMode}>{p.desc}</Desc>
+              <Stack $dark={darkMode}>{p.stack}</Stack>
+              <BtnRow>
+                <Btn $dark={darkMode} href={p.live} target="_blank" rel="noopener noreferrer">Live</Btn>
+                <Btn $dark={darkMode} href={p.repo} target="_blank" rel="noopener noreferrer">GitHub</Btn>
+              </BtnRow>
+            </CardBody>
+          </Card>
         ))}
-      </ProjectsGrid>
-    </Container>
+      </Grid>
+    </Section>
   );
 }
 

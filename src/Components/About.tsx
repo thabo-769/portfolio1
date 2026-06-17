@@ -1,59 +1,53 @@
 import styled from "styled-components";
 
-type AboutProps = {
-  darkMode: boolean;
-};
+type AboutProps = { darkMode: boolean };
 
-const Container = styled.div`
-  padding: 5rem 8rem;
-  max-width: 1200px;
-  margin: 0 auto;
-
-  @media (max-width: 900px) {
-    padding: 4rem 2rem;
-  }
+const Section = styled.div`
+  padding: 5rem 0;
+  border-top: 1px solid;
+  border-color: inherit;
 `;
 
-const SectionLabel = styled.span<{ darkMode: boolean }>`
+const Label = styled.span<{ $dark: boolean }>`
   display: block;
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 2px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 2.5px;
   text-transform: uppercase;
   margin-bottom: 0.75rem;
-  color: ${(props) => (props.darkMode ? "#888888" : "#999999")};
+  color: ${({ $dark }) => ($dark ? "#666666" : "#aaaaaa")};
 `;
 
-const AboutTitle = styled.h2<{ darkMode: boolean }>`
-  font-size: 2.2rem;
+const Title = styled.h2<{ $dark: boolean }>`
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
   font-weight: 700;
-  margin: 0 0 1.5rem;
   letter-spacing: -0.5px;
-  color: ${(props) => (props.darkMode ? "#ffffff" : "#121212")};
+  margin-bottom: 1rem;
+  color: ${({ $dark }) => ($dark ? "#ffffff" : "#111111")};
 `;
 
-const Divider = styled.div<{ darkMode: boolean }>`
-  width: 48px;
+const Bar = styled.div<{ $dark: boolean }>`
+  width: 40px;
   height: 3px;
   border-radius: 2px;
   margin-bottom: 1.75rem;
-  background: ${(props) => (props.darkMode ? "#444444" : "#cccccc")};
+  background: ${({ $dark }) => ($dark ? "#444444" : "#cccccc")};
 `;
 
-const AboutContent = styled.p<{ darkMode: boolean }>`
-  font-size: 1.05rem;
+const Body = styled.p<{ $dark: boolean }>`
+  font-size: 1rem;
   line-height: 1.85;
-  max-width: 720px;
-  color: ${(props) => (props.darkMode ? "#aaaaaa" : "#555555")};
+  max-width: 680px;
+  color: ${({ $dark }) => ($dark ? "#aaaaaa" : "#555555")};
 `;
 
 function About({ darkMode }: AboutProps) {
   return (
-    <Container>
-      <SectionLabel darkMode={darkMode}>About Me</SectionLabel>
-      <AboutTitle darkMode={darkMode}>Who I Am</AboutTitle>
-      <Divider darkMode={darkMode} />
-      <AboutContent darkMode={darkMode}>
+    <Section>
+      <Label $dark={darkMode}>About Me</Label>
+      <Title $dark={darkMode}>Who I Am</Title>
+      <Bar $dark={darkMode} />
+      <Body $dark={darkMode}>
         I don't just write code — I build experiences. As a software developer,
         I am passionate about creating innovative digital solutions that help
         people and businesses achieve more. I enjoy turning ambitious ideas into
@@ -61,8 +55,8 @@ function About({ darkMode }: AboutProps) {
         that combine creativity, performance, and purpose. Every project is an
         opportunity to learn, grow, and make a meaningful contribution through
         technology.
-      </AboutContent>
-    </Container>
+      </Body>
+    </Section>
   );
 }
 
