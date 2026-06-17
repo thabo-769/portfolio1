@@ -12,20 +12,39 @@ type ContactProps = {
 };
 
 const ContactContainer = styled.section`
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 4rem 8rem;
+  padding: 5rem 8rem;
+  max-width: 1200px;
+  margin: 0 auto;
 
-  @media (max-width: 768px) {
-    padding: 2rem;
+  @media (max-width: 900px) {
+    padding: 4rem 2rem;
   }
 `;
 
-const Title = styled.h2`
-  font-size: 2.8rem;
+const SectionLabel = styled.span<{ darkMode: boolean }>`
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  color: ${({ darkMode }) => (darkMode ? "#888888" : "#999999")};
+`;
+
+const Title = styled.h2<{ darkMode: boolean }>`
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin: 0 0 1rem;
+  letter-spacing: -0.5px;
+  color: ${({ darkMode }) => (darkMode ? "#ffffff" : "#121212")};
+`;
+
+const Divider = styled.div<{ darkMode: boolean }>`
+  width: 48px;
+  height: 3px;
+  border-radius: 2px;
   margin-bottom: 2rem;
+  background: ${({ darkMode }) => (darkMode ? "#444444" : "#cccccc")};
 `;
 
 const Form = styled.form`
@@ -33,72 +52,57 @@ const Form = styled.form`
   flex-direction: column;
   gap: 1.5rem;
   width: 100%;
-  max-width: 700px;
+  max-width: 640px;
 `;
 
-const Button = styled.button<{ $darkMode: boolean }>`
-  padding: 1rem;
-  border: 2px solid
-    ${({ $darkMode }) => ($darkMode ? "#ffffff" : "#121212")};
-  border-radius: 10px;
+const SubmitButton = styled.button<{ darkMode: boolean }>`
+  padding: 0.85rem 2rem;
+  border: 1.5px solid ${({ darkMode }) => (darkMode ? "#ffffff" : "#121212")};
+  border-radius: 8px;
   background: transparent;
-  color: ${({ $darkMode }) => ($darkMode ? "#ffffff" : "#121212")};
-  font-size: 1rem;
+  color: ${({ darkMode }) => (darkMode ? "#ffffff" : "#121212")};
+  font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-
-  transition: all 0.3s ease;
+  width: fit-content;
+  transition: all 0.25s ease;
 
   &:hover {
-    background: ${({ $darkMode }) => ($darkMode ? "#ffffff" : "#121212")};
-    color: ${({ $darkMode }) => ($darkMode ? "#121212" : "#ffffff")};
+    background: ${({ darkMode }) => (darkMode ? "#ffffff" : "#121212")};
+    color: ${({ darkMode }) => (darkMode ? "#121212" : "#ffffff")};
     transform: translateY(-2px);
   }
 `;
 
 function Contact({ darkMode }: ContactProps) {
   const textColor = darkMode ? "#ffffff" : "#121212";
-  const backgroundColor = darkMode
-    ? "rgba(255, 255, 255, 0.08)"
-    : "rgba(0, 0, 0, 0.05)";
 
-  const commonFieldStyles = {
-    "& .MuiInputLabel-root": {
-      color: textColor,
-    },
+  const fieldStyles = {
+    "& .MuiInputLabel-root": { color: textColor },
     "& .MuiOutlinedInput-root": {
       color: textColor,
-      "& fieldset": {
-        borderColor: textColor,
-      },
-      "&:hover fieldset": {
-        borderColor: textColor,
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: textColor,
-      },
+      "& fieldset": { borderColor: darkMode ? "#333333" : "#cccccc" },
+      "&:hover fieldset": { borderColor: textColor },
+      "&.Mui-focused fieldset": { borderColor: textColor },
     },
   };
 
   return (
     <ContactContainer id="contact">
-      <Title style={{ color: textColor }}>Contact Me</Title>
+      <SectionLabel darkMode={darkMode}>Get In Touch</SectionLabel>
+      <Title darkMode={darkMode}>Contact Me</Title>
+      <Divider darkMode={darkMode} />
 
-      <Form
-        action="https://api.web3forms.com/submit"
-        method="POST"
-      >
+      <Form action="https://api.web3forms.com/submit" method="POST">
         <input
           type="hidden"
           name="access_key"
           value={import.meta.env.VITE_WEB3FORMS_ACCESS_KEY}
         />
-
         <input
           type="hidden"
           name="subject"
@@ -106,13 +110,13 @@ function Contact({ darkMode }: ContactProps) {
         />
 
         <TextField
-          label="Username"
+          label="Name"
           name="name"
           variant="outlined"
           required
           fullWidth
           autoComplete="name"
-          sx={commonFieldStyles}
+          sx={fieldStyles}
           slotProps={{
             input: {
               startAdornment: (
@@ -132,7 +136,7 @@ function Contact({ darkMode }: ContactProps) {
           required
           fullWidth
           autoComplete="email"
-          sx={commonFieldStyles}
+          sx={fieldStyles}
           slotProps={{
             input: {
               startAdornment: (
@@ -153,10 +157,12 @@ function Contact({ darkMode }: ContactProps) {
           rows={6}
           fullWidth
           sx={{
-            ...commonFieldStyles,
+            ...fieldStyles,
             "& .MuiOutlinedInput-root": {
-              ...commonFieldStyles["& .MuiOutlinedInput-root"],
-              backgroundColor,
+              ...fieldStyles["& .MuiOutlinedInput-root"],
+              backgroundColor: darkMode
+                ? "rgba(255,255,255,0.04)"
+                : "rgba(0,0,0,0.02)",
             },
           }}
           slotProps={{
@@ -173,10 +179,10 @@ function Contact({ darkMode }: ContactProps) {
           }}
         />
 
-        <Button type="submit" $darkMode={darkMode}>
-          <SendIcon />
+        <SubmitButton type="submit" darkMode={darkMode}>
+          <SendIcon fontSize="small" />
           Send Message
-        </Button>
+        </SubmitButton>
       </Form>
     </ContactContainer>
   );

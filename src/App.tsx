@@ -20,7 +20,7 @@ function App() {
   return (
     <div
       style={{
-        backgroundColor: darkMode ? "#121212" : "#ffffff",
+        backgroundColor: darkMode ? "#121212" : "#f5f5f5",
         color: darkMode ? "#ffffff" : "#565449",
         minHeight: "100vh",
         transition: "all 0.3s ease",
@@ -29,12 +29,12 @@ function App() {
       <button
         onClick={toggleTheme}
         style={{
-          
+          position: "fixed",
           top: "20px",
-          right: "20px",
-          
-          width: "50px",
-          height: "50px",
+          right: "24px",
+          zIndex: 1100,
+          width: "44px",
+          height: "44px",
           borderRadius: "50%",
           border: "none",
           cursor: "pointer",
@@ -43,6 +43,8 @@ function App() {
           justifyContent: "center",
           backgroundColor: darkMode ? "#ffffff" : "#121212",
           color: darkMode ? "#121212" : "#ffffff",
+          boxShadow: "0 2px 12px rgba(0,0,0,0.25)",
+          transition: "all 0.3s ease",
         }}
       >
         {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
